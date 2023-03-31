@@ -1,0 +1,86 @@
+function getHXhtml(data){
+	var huanxinHtml = '';
+	if(data.hide&&data.hide!='0'||(data.appHide&&data.appHide!='0'&&appSys!='web')){
+		huanxinHtml = $('<a href="javascript:;" role="hxServices" style="display:none;" id="hxServices">'+data.buttonText+'</a>');
+	}else{
+		huanxinHtml = $('<style>.hxcsBar{height:40px;line-height:20px;padding:10px;border-radius:4px;position:fixed;z-index:99;right:10px;bottom:10px;display:inline-block;font-size:14px;color:#fff;}.hxcsBar:hover{color:#fff;} .hxcsBar .imgBox {background: transparent url("https://okgo.top/149585284713019.png") no-repeat scroll 0px 0px / 25px 90px;width: 25px;height: 25px;display: inline-block;vertical-align: middle;}.hxcsBar .text{display: inline-block;margin-left:5px;}@media(max-width:767px){.hxcsBar{text-align:center;overflow:hidden;height:auto;padding:5px;}.hxcsBar .imgBox{display:block;margin:auto;}.hxcsBar .text{display:block;margin-left:0;font-size:12px;}}</style><a id="hxServices" class="hxcsBar '+(data.layout?data.layout:'')+'" href="javascript:;" role="hxServices"><span class="imgBox"></span><span class="text">'+(data.buttonText||'联系客服')+'</span></a>');
+	};
+	
+	var cssData = {
+		'background-color':'#'+(data.bgcolor||'42b8f4'),
+		'right':(data.btnPosition_x||10)+'px',
+		'bottom':(data.btnPosition_y||10)+'px'
+	};
+	huanxinHtml.appendTo($('body'));
+	$('.hxcsBar').css(cssData);
+	data.autoConnect=true;
+	data.hide=true;
+	$('body').delegate('a[role="hxServices"]',click,function(){
+		if(appSys=='web'){
+			easemobim.bind();
+		}else{
+			webViewCall('openKeFu',data);
+		};
+	});
+	if(appSys=='web'){
+		window.easemobim = window.easemobim || {};
+		easemobim.config = data;
+		getScript('//kefu.easemob.com/webim/easemob.js');
+	};
+};
+
+if(SiteInfo['huanxin']){
+	getHXhtml(SiteInfo['huanxin']);
+}else{
+	rpcJSON('/site/getPageCustomService',{siteId:SiteInfo.siteId,pageId:SiteInfo.pageId},function(backData){
+		if(backData&&backData.openCustomer&&backData.tenantId){
+			if(backData.dialogWidth){
+				backData.dialogWidth = backData.dialogWidth+'px';
+			};
+			if(backData.dialogHeight){
+				backData.dialogHeight = backData.dialogHeight+'px';
+			};
+			if(backData.dialogPosition_x||backData.dialogPosition_y){
+				backData.dialogPosition = {x:(backData.dialogPosition_x||10)+'px',y:(backData.dialogPosition_y||10)+'px'};
+			};
+			if(!backData.agentName){
+				delete(backData.agentName);
+			};
+			if(!backData.emgroup){
+				delete(backData.emgroup);
+			};
+			backData.visitor={
+				trueName:backData.userName||'访客',
+				userNickname:backData.userName||'访客'
+			};
+			if($('.goods_detail').length>0){
+				backData.goodsInfo={
+					pic:$('.goods_detail .responsiveImage:first').attr('src'),
+					link:windowURL,
+					title:$('.goods_detail').find('[role="title"]:first').text(),
+					price:$('.goods_detail').find('[role="price"]:first').text()
+				};
+			};
+			if(SiteInfo.userId){
+				rpcJSON('/appmodule/user/huanxin/getUser',{pageId:SiteInfo.pageId},function(newData){
+					if(newData.appKey){
+						backData.appKey = newData.appKey;    
+						backData.to = newData.to;
+						backData.user={
+							username:newData.username,  
+							password:newData.password,  
+							token:newData.token
+						};
+						SiteInfo['huanxin'] = backData;
+					};
+				},function(msg){
+				});
+			}else{
+				SiteInfo['huanxin'] = backData;
+			};
+			getHXhtml(backData);
+		};
+	},function(msg){
+	});
+};
+

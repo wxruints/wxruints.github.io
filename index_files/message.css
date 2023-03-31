@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* CSS Document */
+
+.hookLabel .hook{
+font-size: 12px;
+}
+.hookLabel font{margin-left:5px;font-size:14px;vertical-align:middle;}
+.hookLabel .hookBox::before, .hookLabel .hookBox::after {
+    content: "";
+    border-radius: 0;
+}
+.message_form_list .selectBox{
+	max-width:300px;
+}
+.selectItem{position:relative}
+
+/**
+ * 选择日期
+ */
+ 
+.timepicker{
+	text-align:center;
+	line-height:32px;
+}
+.timepicker dl{
+	margin:0;
+}
+.timepicker dd{
+	margin-left:0;
+}
+.timepicker dt{
+	font-size:16px;
+	font-weight:700;
+	line-height:40px;
+	padding-top:8px;
+}
+.timepicker li{
+	float:left;
+	cursor:pointer;
+}
+.timepicker dl.hoursList li{
+	width:25%;
+	font-size:14px;
+	line-height:40px;
+}
+.timepicker dl.minutesList li{
+	width:12.5%;
+	font-size:12px;
+}
+.timepicker li.active{
+	color:#dd0000;
+	background-color:#f6f6f6;
+}
