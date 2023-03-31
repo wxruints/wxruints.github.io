@@ -1,0 +1,1097 @@
+@charset "UTF-8";
+/*
+*dialog.css
+*/
+
+
+.dialog{
+	background-color:#fff;
+	font-size:14px;
+	border-radius:2px;
+	box-shadow:0 2px 8px rgba(0,0,0,0.24);
+	position:fixed;
+	top:50%;
+	left:50%;
+}
+.dialogHead{
+	padding:24px 16px 0;
+	line-height:24px;
+	position:relative;
+}
+.dialogHead .closeBtn{
+	font-size:14px;
+	color:#666;
+}
+.dialogTitle{
+	font-size:16px;
+	color:#000;
+	font-weight:700;
+}
+.dialogMain{
+	padding:0 16px 16px;
+}
+.dialogMain:first-child,
+.ConfirmDialog .dialogMain,
+.fullDialogHead .dialogMain{
+	padding:24px;
+}
+.dialogMain input:before{
+	content:attr(placeholder);
+}
+.dialogHead+.dialogFoot{
+	padding:24px 16px 16px;
+}
+.dialogFoot{
+	padding:0 16px 16px;
+}
+.dialogBtnBox{
+	text-align:right;
+}
+.dialogBtnBox .button{
+	background-color:transparent;
+	color:#dd0000;
+	line-height:36px;
+	padding:0 14px;
+}
+.dialogBtnBox .button+.button{
+	margin:0;
+}
+
+/*Confirm SelectDialog*/
+.DropDialog{
+	box-shadow:0 2px 8px rgba(0,0,0,0.24);
+	width:auto !important;
+	text-align:left;
+}
+.ConfirmDialog .dialogFootTitle,
+.Confirm .dialogFootTitle{
+	display:none;
+}
+.ConfirmDialog .dialogHead,
+.SelectDialog .dialogHead,
+.DropDialog .dialogHead{
+	line-height:36px;
+	padding:12px;
+}
+.ConfirmDialog .dialogHead .closeBtn,
+.SelectDialog .dialogHead .closeBtn,
+.DropDialog .dialogHead .closeBtn{
+	display:inline-block;
+	width:36px;
+	height:36px;
+	line-height:36px;
+	text-align:center;
+	color:#666;
+	font-size:16px;
+	padding-right:16px;
+}
+
+.ConfirmDialog .dialogHead .dialogTitle,
+.SelectDialog .dialogHead .dialogTitle,
+.DropDialog .dialogHead .dialogTitle{
+	display:inline-block;
+}
+.ConfirmDialog .dialogFoot,
+.SelectDialog .dialogFoot,
+.DropDialog .dialogFoot{
+	position:absolute;
+	top:12px;
+	right:8px;
+	padding:0;
+}
+.ConfirmDialog .dialogFoot .button,
+.SelectDialog .dialogFoot .button,
+.DropDialog .dialogFoot .button{
+	padding:0 16px;
+	color:#000;
+}
+.DropDialog .dialogMain{
+	padding:0;
+}
+.ConfirmDialog .dialogMain{
+	padding:0 0 24px;
+}
+.ConfirmDialog .dialogMain .wrapper{
+	padding:0 24px;
+}
+.SelectDialog .dialogMain .wrapper{
+	padding:0;
+}
+.DropDialog .dialogMain,.SlidePanelDialog .dialogMain,.SelectDialog .dialogMain{
+	padding:0;
+}
+
+.SelectDialog.sole-selected .dialogMain .wrapper,
+.SelectDialog.multi-selected .dialogMain .wrapper{
+	min-height:200px;
+	position:relative;
+	overflow:hidden;
+}
+
+
+/*Cancel*/
+.Cancel .dialogMain{
+	padding:24px 24px 0;
+}
+.Cancel .dialogBtnBox{
+	text-align:center;
+}
+.Cancel .lesserBtn{
+	font-size:16px;
+	color:#999;
+	line-height:32px;
+}
+.Cancel .dialogFoot {
+    padding:8px 16px;
+}
+
+.CancelDialog .dialogHead{
+	padding:24px 24px 16px;
+}
+
+
+/*MenuDialog*/
+.MenuDialog .dialogMain li{
+	line-height:36px;
+}
+.MenuDialog .dialogMain li a{
+	display:block;
+	position:relative;
+}
+.MenuDialog .dialogMain li a:active{
+	background-color:#f6f6f6;
+}
+.MenuDialog .dialogMain li i{
+	display:inline-block;
+	width:50px;
+	text-align:center;
+	position:absolute;
+	left:0;
+	top:0;
+	color:#666;
+	font-size:18px;
+}
+.MenuDialog .dialogMain li span{
+	display:block;
+	margin-left:64px;
+	color:#333;
+}
+
+/*dialog表单*/
+.dialogForm{
+	line-height:36px;
+}
+.dialogForm+.dialogForm{
+	margin-top:20px;
+}
+.dialogFormL{
+	width:80px;
+	float:left;
+}
+.dialogFormR{
+	margin-left:90px;
+	position:relative;
+}
+.dialogFormR .SelectDialog{
+	width:100% !important;
+}
+.dialogFormR .formTip{
+	margin-left:0;
+}
+.dialogForm input,
+.dialogForm textarea{
+	width:100%;
+}
+.dialogForm.l9 .dialogFormL{
+	width:90px;
+}
+.dialogForm.l9 .dialogFormR{
+	margin-left:100px;
+}
+.dialogForm .inputBox{
+	display:table;
+	width:100%;
+}
+.dialogForm .inputBox > span{
+	display:table-cell;
+}
+.dialogForm .inputBox input{
+	text-align:left;
+}
+.dlalogClassly+.dlalogClassly{
+	margin-top:24px;
+}
+.dlalogPicClassly{
+	display:inline-block;
+}
+.dlalogPicClassly+.dlalogPicClassly{
+	margin-left:24px;
+}
+.dlalogClassly .classlyTitle{
+	font-size:12px;
+	color:#999;
+}
+.textClassly.dlalogClassly{
+	padding:12px 0 24px;
+	border-bottom:1px solid #eee;
+}
+.textClassly.dlalogClassly p{
+	color:#999;
+}
+.textClassly.dlalogClassly p+p{
+	margin-top:8px;
+}
+
+.dialogInputRow{
+	position:relative;
+}
+.dialogInputRow .addGrid{
+	margin-top:8px;
+}
+.dialogInputCode .codeInputBtn{
+	float:right;
+	width:120px;
+}
+.dialogInputCode .codeInputBox{
+	display:block;
+	margin-right:140px;
+}
+.dialogInputLink .linkInputBtn{
+	float:right;
+	width:36px;
+}
+.dialogInputLink .linkInputBtn .button{
+	width:36px;
+	line-height:36px;
+	padding:0;
+}
+.dialogInputLink .linkInputBtn .button i{
+	font-size:16px;
+}
+.dialogInputLink .linkInputBox{
+	display:block;
+	margin-right:40px;
+}
+.dialogInputRow .expandSelectBtn,
+.dialogInputRow .formBtn{
+	border:0;
+	background-color:#f6f6f6;
+	padding:0 16px;
+	line-height:36px;
+	height:36px;
+	margin-top:8px;
+	display:block;
+}
+.dialogInputRow .expandSelectBtn .button{
+	display:block;
+}
+.dialogInputRow .expandSelectBtn:before{
+	content:"\e131";
+}
+
+.dialogInputRow .uploadPicBox{
+	margin-top:8px;
+	width:80px;
+	height:80px;
+	line-height:80px;
+	background-color:#f6f6f6;
+	border:0 none;
+}
+.dialogInputRow .uploadPicBox:not(.active):before{
+	font-size:14px;
+	color:#ccc;
+}
+.dialogInputRow .uploadPicBox span{
+	padding:0 6px;
+}
+.dialogInputRow .uploadPicBox span:before{
+	font-size:12px;
+}
+
+.dialogInputRow .SelectDialog{
+	box-shadow:0 1px 4px rgba(0,0,0,0.12);
+	top:-40px !important;
+	width:auto !important;
+	left:10px !important;
+	right:10px !important;
+}
+.dialogInputRow .SelectDialog .dialogMain .wrapper{
+	padding:0;
+}
+.dialogInputRow .SelectDialog .dialogMain{
+	padding:8px 0;
+}
+.dialogInputTip{
+	font-size:12px;
+	color:#666;
+	margin-top:8px;
+}
+.clearInput{
+	font-size:16px;
+	color:#eee;
+	line-height:36px;
+	position:absolute;
+	right:12px;
+	top:0;
+}
+.dialogInput{
+	height:36px;
+	border:0 none;
+	border-bottom:1px solid #eee;
+	width:100%;
+	padding:0;
+	font-size:14px;
+	border-radius:0;
+}
+textarea.dialogInput{
+	height:60px;
+}
+.dialogInput:focus{
+	border-bottom-color:#999;
+}
+.dialogInputRow.small .clearInput{
+	line-height:36px;
+}
+.dialogInput.small{
+	height:36px;
+}
+.dialogInputRow.noClear .dialogInput{
+	padding-right:0;
+}
+.dialogInputRow label{
+	display:inline-block;
+	line-height:40px;
+}
+
+.AlertDialog{
+	font-size:14px;
+	color:#666;
+}
+
+/*选择表单*/
+.exhibitList{
+	line-height:48px;
+}
+.exhibitList.high{
+	line-height:56px;
+}
+.flotAddBtn+.dlalogClassly .exhibitList{
+	padding-bottom:80px;
+}
+.exhibitList > li{
+	display:block;
+	position:relative;
+	color:#333;
+	cursor:pointer;
+}
+
+.exhibitList >li+li{
+	margin-top:8px;
+}
+.exhibitList > li span{
+	display:block;
+	margin-right:48px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+.exhibitList > li span.mobile{
+	color:#666;
+	margin-left:10px;
+	display:inline-block;
+	margin-right:0;
+}
+.exhibitList > li span.icon{
+	margin-right:0;
+	width:32px;
+	height:32px;
+	text-align:center;
+	font-size:18px;
+	position:absolute;
+	top:50%;
+	left:4px;
+	background:url("../images/pay.png") no-repeat;
+	margin-top:-16px;
+	background-size:95px;
+}
+.exhibitList > li[data-id="alipay"] span.icon{
+	background-position:-33px 0px;
+}
+.exhibitList > li[data-id="weixin"] span.icon{
+	background-position:left bottom;
+}
+.exhibitList > li[data-id="balance"] span.icon{
+	background-position:left top;
+}
+.exhibitList > li[data-id="unionpay"] span.icon{
+	background-position:-33px -33px;
+}
+.exhibitList > li[data-id="income"] span.icon{
+	background-position:-66px bottom;
+}
+.exhibitList > li[data-id="paypal"] span.icon{
+	background-position:-66px top;
+}
+.exhibitList > li span.text{
+	margin-left:48px;
+}
+.exhibitList > li.active:after{
+	content:"\e168";
+	font-family:xzicon;
+	position:absolute;
+	right:0;
+	top:0;
+	width:48px;
+	font-size:14px;
+	color:#dd0000;
+	text-align:center;
+}
+.exhibitList.high > li .textBox{
+	line-height:1;
+	vertical-align:middle;
+	display:inline-block;
+}
+.exhibitList.high > li .textBox p.small{
+	font-size:12px;
+	color:#999;
+	margin-top:10px;
+}
+.exhibitList.high > li a[role="edit"]{
+	width:44px;
+	text-align:center;
+	font-size:16px;
+	display:inline-block;
+}
+.exhibitList .setTool{
+	position:absolute;
+	top:0;
+	right:0;
+	height:48px;
+	background-color:#fff;
+}
+.exhibitList .setTool i{
+	cursor:pointer;
+	width:32px;
+	height:32px;
+	display:none;
+	vertical-align:middle;
+	font-size:18px;
+	line-height:32px;
+	text-align:center;
+	color:#666;
+}
+.exhibitList .setTool i.xzicon-more2{
+	display:inline-block;
+}
+.exhibitList .setTool i+i{
+	padding-left:8px;
+}
+
+
+/*dialog元素*/
+.dialogAddBtn{
+	display:block;
+	padding:0;
+	line-height:48px;
+	color:#666;
+}
+.dialogTip{
+	color:#999;
+	margin:4px 0 12px;
+}
+.dialog .form{
+	width:100%;
+	min-width:0;
+	padding:0;
+}
+
+/*颜色Dialog*/
+.colorDialog{
+	box-shadow:0 1px 2px rgba(0,0,0,0.24);
+}
+.colorDialog .dialogMain{
+	padding:0;
+}
+.colorGrid{
+	font-size:0;
+	padding-bottom:8px;
+}
+.colorItem{
+	display:block;
+	margin:8px 0 0 8px;
+	float:left;
+}
+.colorItem .colorBar{
+	display:block;
+	width:20px;
+	height:20px;
+	border-radius:20px;
+	border:1px solid #eee;
+}
+.colorItem .colorTitle{
+	display:none;
+}
+
+
+/*选择框*/
+.dialogSelectList{
+	height:100%;
+	width:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	overflow:hidden;
+}
+.selectListContainer{
+	height:100%;
+	position:relative;
+}
+.multi-selected .selectListContainer{
+	padding-bottom:48px;
+}
+.group-selected .selectListContainer{
+	padding-bottom:0;
+}
+.selectFootBar{
+	width:100%;
+	line-height:48px;
+	height:48px;
+	position:absolute;
+	bottom:0;
+	left:0;
+	background-color:#fff;
+	border-top:1px solid #eee;
+	z-index:9;
+}
+.selectFootBar .button{
+	line-height:48px;
+}
+.selectFootBar .button,
+.selectedHeadBar .button{
+	padding:0 16px;
+}
+.selectFootBar .b4{
+	background-color:transparent;
+	color:#dd0000;
+}
+.selectFootBar .b1,
+.selectedHeadBar .b1{
+	background-color:transparent;
+	color:#666;
+}
+.dialogSelectList .selectContent{
+	position:absolute;
+	height:100%;
+	width:100%;
+	top:0;
+	left:0;
+	overflow-x:hidden;
+	overflow-y:auto;
+	-webkit-overflow-scrolling:touch;
+}
+.multi-selected .dialogSelectList .selectContent{
+	bottom:48px;
+	height:auto;
+}
+.dialogSelectList .selectContent>ul{
+	display:none;
+	position:absolute;
+	width:100%;
+}
+.dialogSelectList .selectContent>ul.show{
+	display:block;
+}
+.dialogSelectList .selectedContainer{
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:0;
+	background-color:#fff;
+	z-index:11;
+	overflow-y:hidden;
+	padding:0;
+	-webkit-transition:height .3s ease 0s;
+	   -moz-transition:height .3s ease 0s;
+		-ms-transition:height .3s ease 0s;
+		 -o-transition:height .3s ease 0s;
+		 	transition:height .3s ease 0s;
+}
+.dialogSelectList .selectedContainer.show{
+	height:100%;
+	padding:0 0 48px;
+}
+.dialogSelectList .selectedContainer>ul{
+	height:100%;
+	position:relative;
+	width:auto;
+	overflow-y:auto;
+	-webkit-overflow-scrolling:touch;
+}
+.selectedHeadBar{
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
+	line-height:48px;
+	border-top:1px solid #eee;
+	background-color:#fff;
+	z-index:11;
+}
+.selectedHeadBar .title{
+	padding:0 16px;
+}
+.selectedHeadBar .button{
+	line-height:48px;
+}
+.SelectDialog .selectLink{
+	padding:0 16px;
+	position:relative;
+}
+
+
+/*选择行*/
+.selectLink .setRowR{
+	width:30px;
+	text-align:center;
+	color:#ccc;
+	right:16px;
+	position:absolute;
+	top:0;
+}
+.selectLink .setRowL .picBox{
+	display:inline-block;
+	vertical-align:middle;
+	width:30px;
+	height:30px;
+	margin-right:8px;
+}
+.selectLink .setRowL .picBox img{
+	max-width:100%;
+	max-height:100%;
+	vertical-align:top;
+}
+.selectItem.child .selectLink .setRowL{
+	position:relative;
+}
+.selectItem.unselectable >.selectLink >.setRowL .hookLabel{
+	cursor:default;
+}
+.selectItem.unselectable >.selectLink >.setRowL .hookLabel .hookBox::before{
+	content: "\e119";
+	color:#eee;
+	font-family: xzicon;
+	border:0 none;
+	font-size:20px;
+	line-height:18px;
+}
+.selectItem.back .setRowL span:before{
+	content: "\e175";
+	font-family: xzicon;
+	margin-right:8px;
+}
+.selectItem.family{
+	margin:0;
+}
+.selectSon .selectItem{
+	border:0;
+}
+.selectItem.family.open .setRowR .xzicon-arrow-r{
+	-webkit-transform:rotate(90deg);
+	   -moz-transform:rotate(90deg);
+		-ms-transform:rotate(90deg);
+		 -o-transform:rotate(90deg);
+		 	transform:rotate(90deg);
+	
+}
+.selectLink{
+	color:#666;
+	line-height:50px;
+	height:50px;
+	display:block;
+}
+.selectLink .setRowL .hookLabel,
+.selectLink .setRowL .circleLabel{
+	padding-right:16px;
+	float:left;
+}
+.selectLink .circleLabel .circle{
+	border-width:2px;
+	width:18px;
+	height:18px;
+}
+.selectLink .setRowL .name{
+	margin-left:40px;
+	display:block;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+.selectItem.family.open .selectSon{
+	display:block;
+}
+.selectSon{
+	display:none;
+	padding:0 20px 16px;
+	margin:-8px 0 0 -8px;
+	overflow:hidden;
+}
+.selectSonBar{
+	line-height:36px;
+	padding:0 12px;
+	margin:8px 0 0 8px;
+	display:inline-block;
+}
+.selectSonBar .hookLabel{
+	float:left;
+}
+.selectSonBox >span{
+	display:block;
+	margin-left:30px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+
+.selectItem.active .selectLink .setRowL > .hookLabel .hookBox:after,.selectItem.active .selectLink .setRowL > .hookLabel .hookBox .hook,
+.selectItem.active > .selectSonBar .hookLabel .hookBox:after,.selectItem.active > .selectSonBar .hookLabel .hookBox .hook{
+	opacity:1;
+}
+.selectItem.active .selectLink .circleLabel .circle{
+	border-color:#dd0000;
+	border-width:6px;
+}
+
+/*多行*/
+.multi-line .selectLink{
+	height:auto;
+	line-height:1.5;
+	padding:8px 16px;
+}
+.multi-line .selectLink .setRowL{
+	position:relative;
+}
+.multi-line .selectLink .setRowL .circleLabel{
+	position:absolute;
+	top:50%;
+	left:0;
+	margin-top:-9px;
+	height:24px;
+}
+.multi-line .selectLink .setRowL >span{
+	display: block;
+	margin-left: 34px;
+	line-height: 1.5;
+}
+
+.sildeDialog{
+	position:fixed;
+	top:0;
+	right:0;
+	height:100%;
+	width:70%;
+	background-color:#fff;
+	box-shadow:0 0 8px rgba(0,0,0,0.24);
+}
+.sildeDialog iframe{
+	width:100%;
+	height:100%;
+}
+
+.flotAddBtn{
+	display:block;
+	position:absolute;
+	right:16px;
+	bottom:16px;
+	width:48px;
+	height:48px;
+	line-height:48px;
+	border-radius:50%;
+	box-shadow:0 2px 8px rgba(0,0,0,0.24);
+	background-color:#dd0000;
+	color:#fff;
+	text-align:center;
+	z-index:999;
+}
+.flotAddBtn:hover{
+	color:#fff;
+	background-color:#a80000;
+}
+
+	
+@media(max-width:768px){
+	.dialog{
+		left:20px !important;
+		right:20px !important;
+		width:auto !important;
+	}
+	.SelectDialog.sole-selected .dialogHead{
+		display:block;
+	}
+	.SelectDialog.sole-selected .dialogFoot{
+		display:block;
+	}
+	.ConfirmDialog .dialogHead,
+	.SelectDialog .dialogHead,
+	.DropDialog .dialogHead{
+		padding:0;
+		line-height:48px;
+		background-color:#fff;
+		text-align:left;
+	}
+	.ConfirmDialog .dialogHead .dialogTitle,
+	.SelectDialog .dialogHead .dialogTitle,
+	.DropDialog .dialogHead .dialogTitle{
+		font-size:18px;
+	}
+	.ConfirmDialog .dialogHead .closeBtn,
+	.SelectDialog .dialogHead .closeBtn,
+	.DropDialog .dialogHead .closeBtn{
+		width:48px;
+		height:48px;
+		line-height:48px;
+	}
+	.ConfirmDialog .dialogMain,
+	.SelectDialog .dialogMain,
+	.DropDialog .dialogMain{
+		position:absolute;
+		top:48px;
+		left:0;
+		bottom:0;
+		right:0;
+		padding:8px 0;
+	}
+	.DropDialog .dialogMain{
+		padding:0;
+	}
+	
+	
+	
+	.ConfirmDialog .dialogMain .wrapper,
+	.SelectDialog .dialogMain .wrapper,
+	.DropDialog .dialogMain .wrapper{
+		height:100% !important;
+		max-height:100% !important;
+		padding:0 16px;
+	}
+	.ConfirmDialog .dialogFoot,
+	.SelectDialog .dialogFoot,
+	.DropDialog .dialogFoot{
+		right:0;
+		top:0;
+	}
+	.ConfirmDialog .dialogFoot .button,
+	.SelectDialog .dialogFoot .button,
+	.DropDialog .dialogFoot .button{
+		line-height:48px;
+		font-size:16px;
+	}
+	
+	
+	.MenuDialog,.ConfirmDialog,.SelectDialog,.CancelDialog,.DropDialog,.SlidePanelDialog{
+		border-radius:0;
+		box-shadow:0 -1px 4px rgba(0,0,0,0.12);
+		position:fixed !important;
+		left:0 !important;
+		right:0 !important;
+		width:100% !important;
+		margin-left:0 !important;
+		margin-right:0 !important;
+		
+		bottom:0 !important;
+	}
+	.MenuDialog,.ConfirmDialog,.CancelDialog{
+		top:auto !important;
+	}
+	
+	.ConfirmDialog,.SelectDialog,.DropDialog,.SlidePanelDialog{
+		top:0 !important;
+		height:100% !important;
+	}
+	.CancelDialog{
+		max-height:100%;
+	}
+	.CancelDialog .dialogHead{
+		padding:16px 10px;
+	}
+	
+	.CancelDialog .dialogMain,
+	.CancelDialog .dialogFoot,
+	.MenuDialog .dialogFoot,
+	.MenuDialog .dialogMain,
+	.SelectDialog .dialogMain .wrapper{
+		padding:0;
+	}
+	.MenuDialog .dialogMain li{
+		line-height:50px;
+		font-size:16px;
+	}
+	.MenuDialog .dialogBtnBox .lesserBtn,
+	.CancelDialog .dialogBtnBox .lesserBtn{
+		line-height:50px;
+		display:block;
+		position:relative;
+		padding:0 0 0 64px;
+		text-align:left;
+		font-size:16px;
+		color:#333;
+	}
+	.MenuDialog .dialogBtnBox .lesserBtn:active,
+	.CancelDialog .dialogBtnBox .lesserBtn:active{
+		background-color:#f6f6f6;
+	}
+	.MenuDialog .dialogBtnBox .lesserBtn:before,
+	.CancelDialog .dialogBtnBox .lesserBtn:before{
+		content: "\e105";
+		font-family:xzicon;
+		font-size:18px;
+		width:50px;
+		height:50px;
+		line-height:50px;
+		position:absolute;
+		left:0;
+		top:0;
+		text-align:center;
+		color:#666;
+	}
+	
+	.dialogInputRow .expandSelectBtn{
+		text-align:left;
+	}
+	.dialogInputRow .expandSelectBtn:before{
+		line-height:36px;
+	}
+	
+	.dialogForm{
+		position:relative;
+		border-bottom:1px solid #eee;
+		border-radius:2px;
+		line-height:65px;
+	}
+	.dialogForm .expandSelectBtn{
+		height:65px;
+	}
+	.dialogForm .expandSelectBtn:before{
+		line-height:65px;
+	}
+	.dialogForm .expandSelectBtn span{
+		margin-right:0;
+	}
+	.dialogForm .uploadPicBox{
+		border:1px solid #eee;
+	}
+	.dialogForm .uploadPicBox:not(.active):before{
+		font-size:24px;
+	}
+	.dialogForm+.dialogForm{
+		margin-top:0;
+	}
+	.dialogFormL{
+		float:none;
+		width:auto !important;
+		position:absolute;
+		left:5px;
+		top:0;
+	}
+	.dialogFormR{
+		margin:0 0 0 80px;
+	}
+	.dialogFormR input,
+	.dialogFormR textarea{
+		border:0 none;
+	}
+	.dialogForm.l9 .dialogFormR{
+		margin-left:90px;
+	}
+	
+	.dialogSelectList{
+		min-height:200px;
+	}
+	
+	.selectSon{
+		margin:0;
+		padding:0;
+	}
+	.selectSon li{
+		display:block;
+	}
+	.selectSonBar{
+		display:block;
+		background-color:transparent;
+		line-height:50px;
+		margin:0;
+		border-top:1px solid #eee;
+		padding-left:36px;
+	}
+	
+	/*DropDialog*/
+	.DropDialog .screenPopup{
+		width:100%;
+		height:auto;
+		padding:0;
+	}
+	.DropDialog .dialogMain .wrapper{
+		padding:0;
+	}
+	
+	/*颜色*/
+	.colorGrid{
+		padding-bottom:0;
+	}
+	.colorItem{
+		float:none;
+		line-height:48px;
+		height:48px;
+		margin:0;
+		position:relative;
+	}
+	.colorItem .colorBar{
+		position:absolute;
+		left:14px;
+		top:14px;
+	}
+	.colorItem .colorTitle{
+		display:block;
+		margin-left:48px;
+		font-size:14px;
+	}
+}
+
+
+
+/*finder dialog*/
+.finderselect .setRow{
+	padding:10px 0;
+}
+@media(max-width:768px){
+	.finderselect .setRow+.setRow{
+		border-top:1px solid #eee;
+	}
+}
+
+
+
+
+/*user_center seticon*/
+.dialog_setIcon{
+	margin:0;
+	font-size:0;
+}
+.dialog_setIcon li{
+	display:inline-block;
+	width:16.6666666%;
+}
+.dialog_setIcon a{
+	display:inline-block;
+	font-size:16px;
+	margin:10px 0 0 10px;
+}
+.dialog_setIcon a.active{
+	color:#dd0000;
+}
+
+.dialogMain .formListR .formBtn~.dialog{
+	width:320px !important;
+}
+
