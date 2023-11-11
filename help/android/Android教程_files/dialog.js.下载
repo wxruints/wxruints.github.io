@@ -1,0 +1,775 @@
+/**
+ *响站弹出框通用类
+ */
+
+
+var ModalHelper = (function(bodyCls) {
+  var scrollTop;
+  return {
+    afterOpen: function() {
+      scrollTop = document.scrollingElement.scrollTop;
+      document.body.classList.add(bodyCls);
+      document.body.style.top = -scrollTop + 'px';
+    },
+    beforeClose: function() {
+      document.body.classList.remove(bodyCls);
+      // scrollTop lost after set position:fixed, restore it back.
+      document.scrollingElement.scrollTop = scrollTop;
+    }
+  };
+})('noScroll');
+
+/**
+ *弹出框
+ */
+
+;function Dialog(msg,opts){
+	if(!msg)return;
+	
+	var opt={
+				title:'',
+				confirmText:'',
+				showConfirmText:true,
+				cancelText:'',
+				showCancelText:true,
+				closeText:'',
+				showCloseText:true,
+				autoShow:true,
+				container:'body',
+				position:'',
+				width:500,
+				height:'',
+				maxHeight:1000,
+				scroll:true,
+				overlay:0.5,
+				overlayColor:'#000000',
+				hideToolsBar:false,//隐藏工具条
+				maskToolsBar:true,//给工具条添加遮罩层
+				outerClose:true,//点击弹出框外围是否自动关闭
+				showAnimation:'slideUp',
+				cls:'',
+				zIndex:'',
+				btnPrevent:true,
+				onConfirm:'',
+				onCancel:'',
+				onClose:'',
+				onBeforeConfirm:'',
+				onBeforeCancel:'',
+				onBeforeClose:''
+			};
+	
+	var options=$.extend(true,opt,opts),
+		getOverlay=function(opacity,bgColor,container,zIndex){
+			var overlay=$('<div style="position:fixed;display:none;left:0;top:0;width:100%;height:100%;opacity:'+(opacity||0.01)+';background:'+(bgColor||'#000')+';z-index:'+(zIndex||getTopIndex())+'"></div>'),
+				container=container||'body';
+			
+			if(isTouch){
+				ModalHelper.afterOpen();
+			};
+			return overlay.appendTo(container)/*.on({
+					'touchmove':function(e){e.preventDefault();e.stopPropagation();}
+					})*/;
+					
+		},
+		buildDialog=function(){
+			var dialogHtml='<div class="dialog '+options.cls+'" style="display:none;z-index:'+(options.zIndex||getTopIndex())+'">';
+		
+			if(options.title||options.closeText){
+				dialogHtml+='<div class="dialogHead">';
+							
+				if(options.closeText){
+					dialogHtml+='<a href="javascript:;" class="closeBtn" role="dialogCloseBtn" '+(!options.showCloseText?'style="display:none;"':'')+'>'+
+								stringToIcon(options.closeText)+
+								'</a>';
+				};
+				
+				if(options.title){
+					dialogHtml+='<p class="dialogTitle" role="dialogTitle">'+options.title+'</p>';
+				};
+									
+				dialogHtml+='</div>';
+			};
+			
+			dialogHtml+='<div class="dialogMain">'+
+								'<div class="wrapper">'+
+								'</div>'+
+							'</div>';
+							
+			if(options.confirmText||options.cancelText){			
+				dialogHtml+='<div class="dialogFoot"><div class="dialogBtnBox clearfix">';
+				
+				if(options.cancelText){
+					dialogHtml+='<a class="button lesserBtn" href="javascript:;" role="dialogCancelBtn" '+(!options.showCancelText?'style="display:none;"':'')+'>'+stringToIcon(options.cancelText)+'</a>';
+				};
+				
+				if(options.confirmText){
+					dialogHtml+='<a class="button confirmBtn" href="javascript:;" role="dialogConfirmBtn" '+(!options.showConfirmText?'style="display:none;"':'')+'>'+stringToIcon(options.confirmText)+'</a>';
+				};
+				dialogHtml+='</div></div>';
+			};
+			
+			dialogHtml+='</div>';
+					
+			return $(dialogHtml).appendTo(options.container);
+		},
+		isCanClose=false,
+		overlay=options.overlay?getOverlay(options.overlay,options.overlayColor,options.container,options.zIndex):'',
+		dialog=buildDialog(),
+		wrapper=dialog.find('div.wrapper').append(msg),
+		outCls=$(window).width()<769?{marginBottom:-$(window).height(),opacity:0}:{opacity:0},
+		inCls=$(window).width()<769?{marginBottom:0,opacity:1}:{opacity:1};
+	
+	if(options.showAnimation=='slideLeft'){
+		outCls={marginRight:'-100%'};
+		inCls={marginRight:0}
+	};
+	
+	if(options.scroll){
+		//niceScrolls(wrapper);
+		wrapper.addClass('webkitScroll');
+		dialog.resizeScroll=function(){
+			//wrapper.getNiceScroll().resize();
+		};
+	}else{
+		dialog.resizeScroll=$.noop;
+	};
+	
+	dialog.css(outCls);
+	
+	
+	var resetPosition=function(){
+			dialog.css({
+				display:'block'
+			});
+			var	width=$(window).width()>options.width?options.width:$(window).width()-20,
+				outerHeight=$('div.dialogHead:visible',dialog).outerHeight()+$('div.dialogFoot:visible',dialog).outerHeight(),
+				maxHeight=$(window).height()-outerHeight;
+			wrapper.css({
+				'max-height':Math.min(options.maxHeight-outerHeight,maxHeight),
+				height:options.height
+			});
+			
+			dialog.css({
+				width:width
+			});
+			
+			if(!options.position){	
+				dialog.toCenter();
+			}else{
+				if(!isPhoneState){
+					if(options.position.left!='undefined'){
+						options.position.right='auto';
+						options.position.bottom='auto';
+						dialog.css(options.position);
+						if(dialog.offset().left+dialog.outerWidth()>$(window).width()){
+							dialog.css({
+									left:'auto',
+									right:0
+								});
+						};
+						
+						if((dialog.offset().top-$(window).scrollTop())+dialog.outerHeight()>$(window).height()&&dialog.outerHeight()<dialog.offset().top-$(window).scrollTop()){
+							
+							dialog.css({
+									top:'auto',
+									bottom:0
+								});
+								
+						};
+						
+					};
+				}else{
+					dialog.toCenter();
+				};
+			};
+		};
+	
+	
+	dialog.setTitle=function(title){
+		$('p[role="dialogTitle"]',dialog).text(title);
+	};
+	
+	dialog.setCancelText=function(text){
+		$('a[role="dialogCancelBtn"]',dialog).html(stringToIcon(text));
+	};
+	
+	dialog.setConfirmText=function(text){
+		$('a[role="dialogConfirmBtn"]',dialog).html(stringToIcon(text));
+	};
+	dialog.setCloseText=function(text){
+		$('a[role="dialogCloseBtn"]',dialog).html(stringToIcon(text));
+	};
+	
+	dialog.showTitle=function(){
+		$('p[role="dialogTitle"]',dialog).show();
+	};
+	
+	dialog.showCancelText=function(){
+		$('a[role="dialogCancelBtn"]',dialog).show();
+	};
+	
+	dialog.showConfirmText=function(){
+		$('a[role="dialogConfirmBtn"]',dialog).show();
+	};
+	
+	dialog.hideTitle=function(){
+		$('p[role="dialogTitle"]',dialog).hide();
+	};
+	
+	dialog.hideCancelText=function(){
+		$('a[role="dialogCancelBtn"]',dialog).hide();
+	};
+	
+	dialog.hideConfirmText=function(){
+		$('a[role="dialogConfirmBtn"]',dialog).hide();
+	};
+	
+	dialog.hide=function(){
+		if(dialog.isHide)return;
+		dialog.isHide=true;
+		var fn=function(){
+			  dialog.animate(outCls,'normal','linear',function(){
+					  dialog.css('display','none');
+			  });
+			  
+			  //隐藏遮罩层
+			  if(overlay){
+				  overlay.fadeOut();
+			  };
+			  if(isTouch){
+			  	  ModalHelper.beforeClose();
+			  };
+			  
+		  };
+		fn();  
+		dsMessage();
+		
+	};
+	
+	dialog.show=function(){
+		isCanClose=false;
+		setTimeout(function(){
+			isCanClose=true;
+		},1000);
+		dialog.isHide=false;
+		var fn=function(){
+			  resetPosition();
+			  dialog.animate(inCls,'normal','easeOut');
+			  if(overlay){
+				  overlay.fadeIn();
+			  };
+		  };
+		 fn();
+		 sMessage();
+	};
+	
+	dialog.cancel=function(){
+		if(!$.isFunction(options.onCancel)){
+			  dialog.close();
+			  return;
+		  };
+		  
+		  var fn=function(){
+				  options.onCancel();
+				  dialog.close();
+			  };
+		  if($.isFunction(options.onBeforeCancel)){
+			  options.onBeforeCancel(fn);
+		  }else{
+			  fn();
+		  };
+	};
+	
+	dialog.confirm=function(){
+		if(!$.isFunction(options.onConfirm)){
+			dialog.close();
+			return;
+		};
+		
+		var fn=function(){
+				options.onConfirm();
+				dialog.close();
+			};
+		if($.isFunction(options.onBeforeConfirm)){
+			options.onBeforeConfirm(fn);
+		}else{
+			fn();
+		};
+	};
+	
+	dialog.close=function(callback){
+		var fn=function(){
+				dialog.animate(outCls,500,'linear',function(){
+						dialog.find('div.boxscroll').getNiceScroll().remove();
+						if($.isFunction(options.onClose)){
+							options.onClose();
+						};
+						if($.isFunction(callback)){
+							callback();
+						};
+						dialog.remove();
+						
+				});
+				if(overlay){
+					overlay.fadeOut(function(){
+						overlay.remove();
+					});
+				};
+				
+				if(isTouch){
+					ModalHelper.beforeClose();
+				};
+				
+				dsMessage();
+				$(document).off(click,closeDialog);
+			};
+		if($.isFunction(options.onBeforeClose)){
+			options.onBeforeClose(fn);
+		}else{
+			fn();
+		};
+		
+		
+		
+	};
+	
+	var sMessage=function(){
+			setTimeout(function(){
+				if(top.deleayShowMessageBox){
+					clearTimeout(top.deleayShowMessageBox);
+					top.deleayShowMessageBox=null;
+				};
+				if(typeof hideMessageBox=='function'){
+					hideMessageBox();
+				};
+			},100);
+		},
+		dsMessage=function(){
+			if(top.deleayShowMessageBox){
+				clearTimeout(top.deleayShowMessageBox);
+			};
+			top.deleayShowMessageBox=setTimeout(function(){
+				if(typeof showMessageBox=='function'){
+					showMessageBox();
+				};
+				top.deleayShowMessageBox=null;
+			},300);
+			
+		},
+		closeDialog=function(){
+			if(isCanClose){
+				dialog.close();
+			};
+		};
+	if(options.autoShow){
+		dialog.show();
+	};
+	setTimeout(function(){
+		if(options.outerClose){
+			if(overlay){
+				overlay.on(click,closeDialog);
+				$(document).on(click,closeDialog);
+			}else{
+				$(document).on(click,closeDialog);
+			};
+			dialog.on(click,function(e){
+				e.stopPropagation();
+			});
+		}else{
+			dialog.on(click,function(e){
+				e.stopPropagation();
+			});
+		};
+	},300);
+	
+	dialog.delegate('a[role^="dialog"]',click,function(e){
+			
+			switch($(this).attr('role')){
+				
+				case 'dialogConfirmBtn':
+					dialog.confirm();
+					
+				break;
+				
+				case 'dialogCancelBtn':
+					dialog.cancel();
+					
+				break;
+				
+				case 'dialogCloseBtn':
+					if(!options.onClose){
+						dialog.cancel();
+					}else{
+						dialog.close();
+					};
+					
+				break;
+				
+			};
+		
+		if(options.btnPrevent){
+			e.preventDefault();
+			e.stopPropagation();
+		};
+		
+	});	
+	
+	
+		
+	return dialog;
+};
+
+
+
+/**
+ *提示框
+ */
+
+;function Alert(msg,onConfirm,opts){
+	if(!msg)return;
+	if(typeof onConfirm=='object'&&!opts){
+		opts=onConfirm;
+		onConfirm=$.noop;
+	};
+	if(this!=top&&top.Dialog){
+		return top.Alert(msg,onConfirm,opts);
+	};
+	var onConfirm=$.isFunction(onConfirm)?onConfirm:'',
+		options=$.extend(true,{confirmText:SiteText.confirmText,onConfirm:onConfirm,width:400},opts),
+		msg=typeof msg=='string'&&msg.indexOf('div')<0?'<div class="AlertDialog">'+msg+'</div>':msg,
+		dialog=Dialog(msg,options);
+	
+	return dialog;
+};
+
+/**
+ *取消框
+ */
+
+;function Cancel(msg,onCancel,opts){
+	if(!msg)return;
+	if(typeof onCancel=='object'&&!opts){
+		opts=onCancel;
+		onCancel=$.noop;
+	};
+	if(this!=top&&top.Dialog){
+		return top.Cancel(msg,onCancel,opts);
+	};
+	var onCancel=$.isFunction(onCancel)?onCancel:'',
+		options=$.extend(true,{cancelText:'x',onCancel:onCancel,width:400,cls:'Cancel'},opts),
+		msg=typeof msg=='string'&&msg.indexOf('div')<0?'<div class="AlertDialog">'+msg+'</div>':msg,
+		dialog=Dialog(msg,options);
+	
+	return dialog;
+};
+
+/**
+ *取消对话框
+ */
+
+;function CancelDialog(msg,onCancel,opts){
+	if(!msg)return;
+	if(typeof onCancel=='object'&&!opts){
+		opts=onCancel;
+		onCancel=$.noop;
+	};
+	if(this!=top&&top.Dialog){
+		return top.CancelDialog(msg,onCancel,opts);
+	};
+	var onCancel=$.isFunction(onCancel)?onCancel:'',
+		options=$.extend(true,{onCancel:onCancel,width:400,maxHeight:450,cancelText:SiteText.cancelText,cls:'CancelDialog',scroll:true},opts),
+		dialog=Dialog(msg,options);
+	
+	return dialog;
+};
+
+/**
+ *确认框
+ */
+
+;function Confirm(msg,onConfirm,onCancel,opts){
+	if(!msg)return;
+	if(typeof onCancel=='object'&&!opts){
+		opts=onCancel;
+		onCancel=$.noop;
+	};
+	if(this!=top&&top.Dialog){
+		return top.Confirm(msg,onConfirm,onCancel,opts);
+	};
+	var onConfirm=$.isFunction(onConfirm)?onConfirm:'',
+		onCancel=$.isFunction(onCancel)?onCancel:'',
+		options=$.extend(true,{confirmText:SiteText.confirmText,cancelText:SiteText.cancelText,onConfirm:onConfirm,onCancel:onCancel,width:400,cls:'Confirm'},opts),
+		msg=typeof msg=='string'&&msg.indexOf('div')<0?'<div class="AlertDialog">'+msg+'</div>':msg,
+		dialog=Dialog(msg,options);
+	
+	return dialog;
+};
+
+/*
+ *弹出确认对话框
+ */
+;function ConfirmDialog(title,msg,opts){
+	if(!title||!msg)return;
+	
+	var options=$.extend(true,{title:title,
+							   closeText:'x',
+							   confirmText:SiteText.confirmText,
+							   cls:'ConfirmDialog',
+							   outerClose:false,
+							   width:850,
+							   scroll:true,
+							   hideToolsBar:true,
+							   maskToolsBar:false
+							},opts),
+		dialog=Dialog(msg,options);
+	
+	return dialog;
+	
+};
+
+/**
+ *列表对话框
+ */
+
+;function MenuDialog(msg,onCancel,opts){
+	if(!msg)return;
+	if(typeof onCancel=='object'&&!opts){
+		opts=onCancel;
+		onCancel=$.noop;
+	};
+	if(this!=top&&top.Dialog){
+		return top.MenuDialog(msg,onCancel,opts);
+	};
+	var html='<ul>';
+	$.each(msg,function(i,item){
+		html+='<li><a href="javascript:" data-value="'+item.value+'"><i class="'+(item.icon?item.icon:'xzicon-menudefault')+'"></i><span>'+item.name+'</span></a></li>';
+	});
+	html+='</ul>';
+	
+	
+	var onCancel=$.isFunction(onCancel)?onCancel:'',
+		options=$.extend(true,{cancelText:SiteText.cancelText,onCancel:onCancel,cls:'MenuDialog',width:300,scroll:true},opts),
+		dialog=Dialog(html,options);
+	
+	
+	return dialog;
+};
+
+/**
+ *按钮在手机上转列表菜单对话框
+ */
+
+;$.fn.phoneMenuDialog=function(opts){
+	return this.each(function(){
+		var $this=$(this),
+			options=$.extend(true,{
+					target:'>li',
+					btnCls:'a[role]',
+					type:'cancel',
+					btnsParent:'',
+					onConfirm:$.noop,
+					dialogOpts:{
+						cls:'MenuDialog'
+					}
+				},opts);
+		
+		var trigger=function($li,e){
+				if(isPhoneState){
+						
+						var btns;
+							
+						if(options.btnsParent){
+							btns=$(options.btnsParent).find(options.btnCls);
+						}else{
+							btns=$li.find(options.btnCls);
+						};
+						
+						if(!btns.length)return;
+						
+						var dialog,
+							ul=$('<ul />');
+						btns.each(function(){
+							var btn=$(this),
+								li=$('<li />').appendTo(ul),
+								href='href="javascript:;"',
+								target='';
+							
+							if(btn.attr('target')=='_blank'){
+								target='_blank';
+								href='href="'+btn.attr('href')+'" target="'+target+'"';
+							};
+							li.append('<a '+href+'><i class="'+(btn.find('i').length?btn.find('i').attr('class'):btn[0].tagName=='I'?$(this).attr('class'):'xzicon-menudefault')+'"></i><span>'+(btn.text()||btn.attr('title'))+'</span></a>').on(click,function(e){
+								if(!target||appSys!='web'||isWeixin){
+									e.preventDefault();
+								};
+								e.stopPropagation();
+								dialog.close(function(){
+									if(!target||appSys!='web'||isWeixin){
+										btn.trigger(click);
+									};
+								});
+							});
+						});
+						if(options.type=='cancel'){
+							dialog=Dialog(ul,$.extend(true,{cls:'MenuDialog',cancelText:SiteText.cancelText,scroll:true},options.dialogOpts));
+						}else{
+							dialog=Confirm(ul,function(){
+								options.onConfirm($li);
+							},'',options.dialogOpts);
+						};
+						
+						e.preventDefault();
+						e.stopPropagation();
+					};
+			};
+		
+		if(typeof options.target=='string'){
+			$this.delegate(options.target,click,function(e){
+				trigger($(this),e);
+			});
+		}else{
+			options.target.on(click,function(e){
+				trigger($(this),e);
+			});
+		};
+		
+		
+	});
+};
+
+/**
+ *下拉对话框
+ */
+
+;function DropDialog($btn,opts){
+	var id='DropDialog_'+getNowRandom(),
+		opts=opts?opts:{},
+		target=opts.target||$btn.next(),
+		options=$.extend(true,{
+			target:'',			//目标元素
+			autoHide:true,     //自动隐藏
+			mouseleaveHide:false,
+			dialogOpts:{
+							container:$btn.parent(),
+							onClose:$.noop,
+							overlay:0,
+							cls:'DropDialog',
+							title:opts.title?opts.title:isPhoneState?$btn.text():'',
+							closeText:(opts.title||isPhoneState)?'x':'',
+							confirmText:(opts.title||isPhoneState)?SiteText.completeText:'',
+							width:target.width(),
+							onBeforeClose:function(fn){
+								dialog.hide();
+							},
+							position:{
+								  top:isPhoneState?'':$btn.outerHeight()+$btn.position().top,
+								  left:$btn.position().left,
+								  position:'absolute'
+							}
+						}
+		},opts),
+		poptype=target.data('poptype')||options.poptype,
+		dialog,
+		createDialog=function(){
+			dialog=Dialog(target,options.dialogOpts);
+			dialog.attr('id',id);
+			if(options.autoHide){
+				target.on(click,function(){
+					dialog.hide();
+				});
+			};
+		};
+		
+	if(poptype=='phonemenu'&&isPhoneState){
+			$btn.parent().phoneMenuDialog({
+				target:$btn,
+				btnsParent:target,
+				btnCls:'a[role]'
+			});
+	}else{
+		$btn.on(click,function(e){
+		
+			if(dialog){
+				if(dialog.isHide){
+					dialog.show();
+				}else{
+					dialog.hide();
+				};
+			}else{
+				createDialog();
+			};
+		});
+		
+		if(options.mouseleaveHide){
+			var state=false;
+			$btn.mouseleave(function(){
+				state=true;
+				setTimeout(function(){
+					if(dialog&&state){
+						if(!dialog.isHide){
+							dialog.hide();
+						};
+					};
+				},300);
+			});
+			target.hover(function(){
+				state=false;
+			},function(){
+				dialog.hide();
+			});
+		};
+		
+	};
+			
+	
+	return dialog;
+};
+
+
+
+/**
+ *右侧弹出框
+ href如果是一个链接，则启用iframe
+ */
+ 
+function SlidePanelDialog(href,opts){
+	if(!href)return;
+	
+	var options=$.extend(true,{
+					width:800,
+					height:$(window).height(),
+					cls:'SlidePanelDialog',
+					overlay:0.01,
+					overlayColor:'rgba(255,255,255,.1)',
+					scroll:typeof href=='object'?true:false,
+					position:{
+						position:'fixed',
+						right:0,
+						top:0	
+					},
+					showAnimation:'slideLeft',
+					onClose:$.noop,
+					onCancel:$.noop,
+					onConfirm:$.noop
+				},opts);
+	
+	if(appSys=='web'||typeof href=='object'){
+		if(typeof href=='string'){
+			var el=$('<iframe src="'+getFullUrl(href)+'" width="100%" height="100%" scrolling="auto" frameborder="0" ></iframe>');
+		};
+		
+		var dialog=Dialog(el,options);
+		window.SlidePanelDialogBack=function(data){
+			options.onClose(data);
+			dialog.close();
+		};
+		return dialog;
+	}else{
+		
+		xzApp.dialogBack=function(data){
+			options.onClose(data);
+			delete xzApp.dialogBack;
+		};
+		webViewCall('href',{href:getFullUrl(href),title:opts.title,tab:'new',requestData:{backAction:'dialogBack'}});
+	}
+};
